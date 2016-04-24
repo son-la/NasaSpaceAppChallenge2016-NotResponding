@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Bootstrap -->
+    <link href="stylesheets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Customize CSS-->
+    <link href="stylesheets/css/customize.css" rel="stylesheet">
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="javascripts/bootstrap.min.js"></script>
+
+    <!-- Socket IO -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- GOOGLE MAPS -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-e85-bMK3m8J7d_Ri5VPDYGC9qEfSKy4" async defer></script>
+
+    <!-- Customize CSS -->
+    <link href="stylesheets/css/customize.css" rel="stylesheet">
+
+    <!-- Customize JS -->
+    <script src="javascripts/customize.js"></script>   
+
+    
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <script>
+        $(document).ready(function () {
+
+            $("#weather-button").toggle();
+            $("#weather-table").click(function () {
+                $("#weather-table").toggle();
+                $("#weather-button").toggle();
+            });
+
+            $("#weather-button").click(function () {
+                $("#weather-table").toggle();
+                $("#weather-button").toggle();
+            });
+
+            var main_view = 'map';
+            var subview_size = 'm';
+
+            $("#switch-button").click(function () {
+                // Check wether map or cam is main
+                if (main_view == 'cam')
+                {
+                    main_view = 'map';
+                    $('#switch-button').attr('src', 'images/camera.png');
+
+                    if (subview_size == 's') {
+                        $('#map').addClass('main-view').removeClass('s-sub-view');
+                        $('#stream').addClass('s-sub-view').removeClass('main-view');
+                    }
+                    else
+                    {
+                        $('#map').addClass('main-view').removeClass('m-sub-view');
+                        $('#stream').addClass('m-sub-view').removeClass('main-view');
+                    }
+                }
+                else
+                {
+                    main_view = 'cam';
+                    $('#switch-button').attr('src', 'images/map.png');
+
+                    if (subview_size == 's') {
+                        $('#stream').addClass('main-view').removeClass('s-sub-view');
+                        $('#map').addClass('s-sub-view').removeClass('main-view');
+                    }
+                    else {
+                        $('#stream').addClass('main-view').removeClass('m-sub-view');
+                        $('#map').addClass('m-sub-view').removeClass('main-view');
+                    }
+                }
+                initMap();
+                console.log(main_view);
+            });
+
+            $('#resize-button').click(function () {
+                if (subview_size == 's')
+                {
+                    subview_size = 'm';
+                    $('.s-sub-view').addClass('m-sub-view').removeClass('s-sub-view');
+                }
+                else
+                {
+                    subview_size = 's';
+                    $('.m-sub-view').addClass('s-sub-view').removeClass('m-sub-view');
+                }
+                initMap();
+            });
+
+            $('#alert').toggle();
+        })
+        
+    </script>
+    
+
+</head>
+<body onload="initMap()">
+    <div id="alert" class="alert alert-danger" style="position:absolute;top:2%;left:10%">
+        <strong>Danger!</strong>Something's wrong!
+    </div>
+
+    <!-- Switch main view button -->
+    <img id="switch-button" src="images/camera.png" alt="Switch" />
+
+    <!-- Resize sub view button -->
+    <img id="resize-button" src="images/resize.png" alt="Resize" />
+    
+   <!--
+    <div style="top:1%;left:40%;margin:auto;position:absolute">
+        <img id="setting-button" src="images/tool.png" alt="Setting" />
+        <img id="refresh-button" src="images/refresh.png" alt="Refresh" />
+    </div>
+  -->
+    <!-- Weather parameters -->
+    <div class="weather-text" >
+        <table class="table" id="weather-table">
+            <tbody>
+                <tr>
+                    <td>Wind</td>
+                    <td><div id="wind">n/a</div></td>
+                </tr>
+                <tr>
+                    <td>Gust Speed Potential</td>
+                    <td><div id="gust">n/a</div></td>
+                </tr>
+                <tr>
+                    <td>Dew Point</td>
+                    <td><div id="dew">n/a</div></td>
+                </tr>
+                <tr>
+                    <td>Temperature</td>
+                    <td><div id="temperature">n/a</div></td>
+                </tr>
+                <tr>
+                    <td>Visibility</td>
+                    <td><div id="visibility">n/a</div></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <img id="weather-button" src="images/weather.png" alt="Show weather"/>
+        
+    </div>    
+
+    <!-- Telemeter -->
+    <div class="tele-table">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Speed</td>
+                    <td><div id="speed">n/a</div></td>
+          
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div style="position=relative">
+        <!-- Camera stream -->
+        <image id="stream" class="m-sub-view" />
+
+        <!-- Map -->
+        <div id="map" class="main-view"> </div>
+    </div>
+</body>
+</html>

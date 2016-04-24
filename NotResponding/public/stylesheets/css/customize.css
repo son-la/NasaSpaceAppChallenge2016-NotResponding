@@ -1,0 +1,118 @@
+﻿#switch-button{
+    position:absolute;
+    height:auto;
+    width:2%;
+    top:37%;
+    left:0.8%;
+    opacity:0.7;
+    min-width:3em;
+}
+
+#resize-button{
+    position:absolute;
+    height:auto;
+    width:2%;
+    top:37%;
+    margin-left:5em;
+    opacity:0.7;
+    min-width:3em;
+}
+
+#setting-button{
+    position:absolute;
+    height:auto;
+    width:1.5%;
+    right:1em;
+    
+    opacity:0.7;
+    min-width:3em;
+}
+
+#refresh-button{
+    position:absolute;
+    height:auto;
+    width:1.5%;
+    
+    opacity:0.7;
+    min-width:3em;
+}
+.weather-text{
+    position:absolute;    
+    color:black;
+    right:1%;
+    top:1%;
+    line-height:80%;
+    font-weight: bold;
+    font-size:14px;
+    
+    opacity:0.8;
+    float:right;
+    width:auto;
+}
+
+#weather-button{
+    
+    height:auto;
+    width:3%;
+    position:fixed;
+    opacity:0.7;
+    right:1.5%;
+    top:1.5%;
+}
+
+.main-view{
+    position:absolute;
+    width:100vw;
+    height:100vh;
+    z-index:-1;
+    max-width:100%;
+    max-height:100%;
+}
+
+.m-sub-view{
+    width:30vw;
+    
+    height:32vh;
+    position:absolute;
+    opacity:0.7;
+    top:6%;
+    left:1%;
+}
+
+.s-sub-view{
+    width:25vw;
+    height:20vh;
+    position:absolute;
+    opacity:0.7;
+    top:7%;
+    left:1%;
+}
+
+.n_alert{
+    top:5%;
+    
+}
+
+.s_alert{
+
+}
+
+.w_alert{
+
+}
+
+.e_alert{
+
+}
+
+
+.tele-table
+{
+    left:5%;
+    margin:0 auto;
+    position:absolute;
+    bottom:2%;
+    color:black;
+    font-size:14px;
+    font-weight: bold;
+}

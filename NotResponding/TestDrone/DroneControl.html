@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- Socket IO -->
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            var sendDataLoop;
+            var cnt;
+            var socket;
+            function sendData()
+            {
+                var lat, long, spd;
+                console.log(cnt);
+                if (cnt == 1) {
+                    lat = $('#place1_lat').val();
+                    lng = $('#place1_lng').val();
+                }
+                else if (cnt == 2) {
+                    lat = $('#place2_lat').val();
+                    lng = $('#place2_lng').val();
+                }
+                else if (cnt == 3) {
+                    lat = $('#place3_lat').val();
+                    lng = $('#place3_lng').val();
+                }
+                else if (cnt == 4) {
+                    lat = $('#place4_lat').val();
+                    lng = $('#place4_lng').val();
+                    console.log('4');
+                }
+                else
+                {
+                    clearInterval(sendDataLoop);
+                    cnt = 1;
+                    return;
+                }
+                ++cnt;
+                
+                
+                data = {role:'drone', lat: lat, lng: lng, spd: spd };
+                console.log(data);
+                socket.emit('gpsLocation', data);
+            }
+
+            $('#fly').click(function () {
+                socket = io("http://127.0.0.1:1337").connect();
+                
+                socket.emit('register', { role: 'drone' });
+                cnt = 1;
+                sendDataLoop = setInterval(sendData, 6000);
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+    <div style="top:10%; left:40%">
+            <div class="form-group">
+                <p>Place 1</p>
+                <label>Latitude:</label>
+                <input id="place1_lat" value="63.09508899999999" />
+                <label>Longitude:</label>
+                <input id="place1_lng" value="21.61645640000006"/>
+            </div>
+            <div class="form-group">
+                <p>Place 2</p>
+                <label>Latitude:</label>
+                <input id="place2_lat" value="63.096"/>
+                <label>Longitude:</label>
+                <input id="place2_lng" value="21.61645640000006"/>
+            </div>
+            <div class="form-group">
+                <p>Place 3</p>
+                <label>Latitude:</label>
+                <input id="place3_lat" value="63.097" />
+                <label>Longitude:</label>
+                <input id="place3_lng" value="21.61645640000006"/>
+            </div>
+            <div class="form-group">
+                <p>Place 4</p>
+                <label>Latitude:</label>
+                <input id="place4_lat" value="63.100293" />
+                <label>Longitude:</label>
+                <input id="place4_lng" value="21.616147756576538" />
+            </div>
+            <button id="fly" class="btn btn-default">Fly</button>
+        </div>
+</body>
+</html>
